@@ -46,9 +46,10 @@ class RandomLocator(Locator):
 class RowLocator(Locator):
     def get_neighbour(self, agent):
         siblings = list(agent.parent.get_agents())
+        #logger.debug("neighbour list: %s", siblings)
         if len(siblings) < 2:
             return None
-        index = siblings.index(agent)
+        index = siblings.index(agent.__repr__())
         return random.choice(siblings[index - 2:index] + siblings[index + 1:index + 3])
 
 

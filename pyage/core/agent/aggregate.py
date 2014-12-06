@@ -2,6 +2,9 @@ from pyage.core.address import Addressable
 from pyage.core.agent.agent import AbstractAgent
 from pyage.core.inject import Inject
 
+import logging
+logger = logging.getLogger(__name__)
+
 class AggregateAgent(Addressable, AbstractAgent):
     @Inject("aggregated_agents:_AggregateAgent__agents")
     def __init__(self, name=None):
@@ -39,6 +42,9 @@ class AggregateAgent(Addressable, AbstractAgent):
         best =  max(self.__agents.values(), key=lambda a: a.get_fitness()).get_best_genotype()
         #print "best from agregate: {0}".format(best)
         return best
+
+    def __str__(self):
+        return str(self.name)
 
 
 

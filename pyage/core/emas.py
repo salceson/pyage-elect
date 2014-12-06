@@ -35,7 +35,6 @@ class EmasAgent(Addressable):
         return self.genotype.fitness
 
     def get_best_genotype(self):
-       # print "emas best gen: {0}".format(self.genotype)
         return self.genotype
 
     def add_energy(self, energy):
@@ -48,7 +47,7 @@ class EmasAgent(Addressable):
         return self.genotype
 
     def meet(self, neighbour):
-        logger.debug(str(self) + "meets" + str(neighbour))
+        logger.debug("%s MEETS %s", self, neighbour)
         if self.get_fitness() > neighbour.get_fitness():
             transfered_energy = min(self.transferred_energy, neighbour.energy)
             self.energy += transfered_energy
@@ -59,31 +58,39 @@ class EmasAgent(Addressable):
             neighbour.add_energy(transfered_energy)
 
     def death(self, neighbour):
+        logger.debug("%s DYING!", self)
         self.distribute_energy()
         self.energy = 0
+        logger.debug("%s DIED", self)
         self.parent.remove_agent(self)
-        logger.debug(str(self) + "died!")
+        
 
     def distribute_energy(self):
-        logger.debug("death, energy level: %d" % self.energy)
+        logger.debug("Energy level: %d" % self.energy)
         if self.energy > 0:
             siblings = set(self.parent.get_agents())
             siblings.remove(self)
             portion = self.energy / len(siblings)
             if portion > 0:
-                logger.debug("passing %d portion of energy to %d agents" % (portion, len(siblings)))
+                logger.debug("Passing %d portion of energy to %d agents" % (portion, len(siblings)))
                 for agent in siblings:
                     agent.add_energy(portion)
             left = self.energy % len(siblings)
-            logger.debug("distributing %d left energy" % left)
+            logger.debug("Distributing %d left energy" % left)
             while left > 0:
                 e = min(left, 1)
                 siblings.pop().add_energy(e)
                 left -= e
 
+    def __str__(self):
+        return str(self.parent) + '@' + str(self.name)
+
+    #def __repr__(self):
+    #    return self.__str__();
+
 
 class EmasService(object):
-    @Inject("minimal_energy", "reproduction_minimum", "migration_minimum", "newborn_energy")
+    @Inject("minimal_energy", "reproduction_minimum", "migration_minimum", "newborn_energy", "naming_service")
     def __init__(self):
         super(EmasService, self).__init__()
 
@@ -97,11 +104,14 @@ class EmasService(object):
         return agent.get_energy() > self.migration_minimum and len(agent.parent.get_agents()) > 10
 
     def reproduce(self, a1, a2):
-        logger.debug(str(a1) + " " + str(a2) + "reproducing!")
+        logger.debug("%s AND %s REPRODUCING!", a1, a2)
         energy = self.newborn_energy / 2 * 2
         a1.energy -= self.newborn_energy / 2
         a2.add_energy(-self.newborn_energy / 2)
         genotype = a1.crossover.cross(a1.genotype, a2.get_genotype())
         a1.mutation.mutate(genotype)
-        a1.parent.add_agent(EmasAgent(genotype, energy))
+        new_agent = EmasAgent(genotype, energy, self.naming_service.get_next_agent(a1.parent.name))
+        a1.parent.add_agent(new_agent)
+        logger.debug("New agent: %s", new_agent)
+
 

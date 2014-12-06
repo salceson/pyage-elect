@@ -23,7 +23,6 @@ class kApprovalEvaluator(Operator):
 		counter = 0
 		points_list = []
 		cash_sum = 0
-		logger.debug("evaluating votes: {0}".format(genotype))
 		for vote in genotype.votes:
 			new_index = vote.index(self.candidate)
 			bias = new_index-self.initial_vote_places[counter]
@@ -36,7 +35,6 @@ class kApprovalEvaluator(Operator):
 		_,max_val = sorted_points[0]
 
 		all_max = [(a,b) for (a,b) in sorted_points if b==max_val]
-		logger.debug(all_max)
 		evaluated = None
 		for (cand, points) in all_max:
 			if cand == self.candidate:		
@@ -45,5 +43,4 @@ class kApprovalEvaluator(Operator):
 		if evaluated is None:
 			randy = random.randint(0,50)
 			evaluated = -9999999 + randy
-		logger.debug("to: {0}".format(evaluated))
 		return evaluated

@@ -15,8 +15,9 @@ from pyage.core.stop_condition import StepLimitStopCondition
 
 from pyage.elect.el_crossover import Crossover
 from pyage.elect.el_eval import kApprovalEvaluator 
-from pyage.elect.el_init import emas_initializer 
+from pyage.elect.el_init import emas_initializer, root_agents_factory
 from pyage.elect.el_mutation import Mutation
+from pyage.elect.naming_service import NamingService
 
 
 votes = [
@@ -34,15 +35,16 @@ logger = logging.getLogger(__name__)
 
 agents_count = 5
 logger.debug("EMAS, %s agents", agents_count)
-agents = unnamed_agents(agents_count, AggregateAgent)
+agents = root_agents_factory(agents_count, AggregateAgent)
 
 stop_condition = lambda: StepLimitStopCondition(10000)
 
-aggregated_agents = lambda: emas_initializer(votes = votes, candidate = 1,size=40, energy=40 )
+agg_size = 40
+aggregated_agents = lambda: emas_initializer(votes = votes, candidate = 1,size=agg_size, energy=40 )
 
 emas = EmasService
 
-minimal_energy = lambda: 0
+minimal_energy = lambda: 10
 reproduction_minimum = lambda: 90
 migration_minimum = lambda: 120
 newborn_energy = lambda: 100
@@ -58,3 +60,5 @@ migration = ParentMigration
 locator = GridLocator
 
 stats = lambda: StepStatistics('fitness_%s_pyage.txt' % __name__)
+
+naming_service = lambda: NamingService(agents_count, agg_size)
