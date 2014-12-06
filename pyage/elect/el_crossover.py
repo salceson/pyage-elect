@@ -2,6 +2,10 @@ import random
 from pyage.core.operator import Operator
 from pyage.elect.el_genotype import Votes
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 class AbstractCrossover(Operator):
     def __init__(self, type, size):
         super(AbstractCrossover, self).__init__(type)
@@ -19,9 +23,9 @@ class Crossover(AbstractCrossover):
         super(Crossover, self).__init__(Votes, size)
 
     def cross(self, p1, p2):
-        print "crossing: {0} and {1}".format(p1, p2)
+        logger.debug("Crossing: {0} and {1}".format(p1, p2))
         division = random.randint(1, len(p1.votes)-2)
         new_votes = p1.votes[:division] + p2.votes[division:]
-        print "new votes:" + str(new_votes)
+        loger.debug("new votes:" + str(new_votes))
         return Votes(new_votes, p1.candidate)
 

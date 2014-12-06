@@ -35,7 +35,7 @@ class AggregateAgent(Addressable, AbstractAgent):
             return None
 
     def get_best_genotype(self):
-        print self.__agents.values()
+        logger.debug(self.__agents.values())
         best =  max(self.__agents.values(), key=lambda a: a.get_fitness()).get_best_genotype()
         #print "best from agregate: {0}".format(best)
         return best

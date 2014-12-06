@@ -3,6 +3,9 @@ import time
 from pyage.core.operator import Operator
 from pyage.elect.el_genotype import Votes
 
+import logging
+logger = logging.getLogger(__name__)
+
 class kApprovalEvaluator(Operator):
 	def __init__(self, k, price_func, budget, initial_vote_places, candidate=1, type=None):
 		super(kApprovalEvaluator, self).__init__(Votes)
@@ -13,7 +16,6 @@ class kApprovalEvaluator(Operator):
 		self.initial_vote_places = initial_vote_places
 	
 	def process(self, population):
-		print "eval"
 		for genotype in population:
 			genotype.fitness = self.evaluate(genotype)
 
@@ -21,7 +23,7 @@ class kApprovalEvaluator(Operator):
 		counter = 0
 		points_list = []
 		cash_sum = 0
-		print "evaluating votes: {0}".format(genotype)
+		logger.debug("evaluating votes: {0}".format(genotype))
 		for vote in genotype.votes:
 			new_index = vote.index(self.candidate)
 			bias = new_index-self.initial_vote_places[counter]
@@ -34,7 +36,7 @@ class kApprovalEvaluator(Operator):
 		_,max_val = sorted_points[0]
 
 		all_max = [(a,b) for (a,b) in sorted_points if b==max_val]
-		print all_max
+		logger.debug(all_max)
 		evaluated = None
 		for (cand, points) in all_max:
 			if cand == self.candidate:		
@@ -43,5 +45,5 @@ class kApprovalEvaluator(Operator):
 		if evaluated is None:
 			randy = random.randint(0,50)
 			evaluated = -9999999 + randy
-		print "to: {0}".format(evaluated)
+		logger.debug("to: {0}".format(evaluated))
 		return evaluated
