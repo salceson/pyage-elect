@@ -14,6 +14,5 @@ class TournamentSelection(Operator):
             sample = random.sample(p, self.tournament_size)
             winner = max(sample, key=lambda genotype: genotype.fitness)
             population.append(winner)
-            p.remove(winner)
-
+            #p.remove(winner)
 

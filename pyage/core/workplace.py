@@ -55,8 +55,8 @@ class Workplace(Addressable):
             self.stats.update(self.steps, self.__agents.values())
             if self.stop_condition.should_stop(self):
                 self.stop()
-        except:
-            logger.warning("Caught exception, stopping")
+        except Exception as a:
+            logger.warning("Caught exception, stopping: %s", a)
             self.stop()
 
     def get_fitness(self):

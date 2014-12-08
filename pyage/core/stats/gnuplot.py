@@ -18,7 +18,7 @@ class StepStatistics(Statistics):
 
     def update(self, step_count, agents):
         try:
-            best_fitness = max(a.get_fitness() for a in agents)
+            best_fitness = max([a.get_fitness() for a in agents])
             #print  max(agents, key=lambda a: a.get_fitness()).get_best_genotype()
             logger.info(best_fitness)
             self.history.append(best_fitness)
