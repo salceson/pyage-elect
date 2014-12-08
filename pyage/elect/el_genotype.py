@@ -6,5 +6,5 @@ class Votes(object):
         self.candidate = candidate
 
     def __str__(self):
-        return "{0}\nfitness: {1} HASH: {2}".format(self.votes, self.fitness, self.__hash__())
+        return "{0}\nfitness: {1} HASH: {2}".format("\n".join(map(str,self.votes)), self.fitness, self.__hash__())
         

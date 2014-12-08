@@ -5,26 +5,16 @@ from pyage.elect.el_genotype import Votes
 
 logger = logging.getLogger(__name__)
 
-class AbstractMutation(Operator):
-    def __init__(self, type, probability):
-        super(AbstractMutation, self).__init__()
+class Mutation(object):
+    def __init__(self, probability=0.1):
         self.probability = probability
 
-    def process(self, population):
-        for genotype in population:
-            if random.random() < self.probability:
-                self.mutate(genotype)
-
-class Mutation(AbstractMutation):
-    def __init__(self, probability=0.1):
-        super(Mutation, self).__init__(Votes, probability)
-
     def mutate(self, genotype):
-        #logger.debug("Mutating genotype: {0}".format(genotype.__hash__()))
+        logger.debug("Mutating genotype: {0}".format(genotype.__hash__()))
         for vote in genotype.votes:
             rand = random.random()
             index_of_cand = vote.index(genotype.candidate)
-            if rand < 0.5:
+            if rand < self.probability:
                 bias = random.randint(-10,10)
                 biased = (index_of_cand-bias)%len(vote)
                 vote.insert(biased, vote.pop(index_of_cand))
