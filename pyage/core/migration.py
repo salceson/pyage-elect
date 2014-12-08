@@ -22,15 +22,13 @@ class Pyro4Migration(Migration):
             if random.random() < self.probability and len(agent.parent.get_agents()) > 1:
                 logger.debug("migrating!")
                 aggregate = self._get_random_aggregate(agent)
-
-		parent = agent.parent
-                logger.debug("ADDING TO: " + str(aggregate.get_address()))
-		logger.debug("PARENT B FROM:" +str( len(parent.get_agents())));
-		logger.debug("PARENT B TO:" + str(len(aggregate.get_agents())));
+                parent = agent.parent
+                logger.debug("ADDING TO: " + str(aggregate))
+                logger.debug("PARENT B FROM:" +str( len(parent.get_agents())))
+                logger.debug("PARENT B TO:" + str(len(aggregate.get_agents())))
                 aggregate.add_agent(agent.parent.remove_agent(agent))
-		logger.debug("PARENT A FROM:" + str(len(parent.get_agents())));
-		logger.debug("PARENT A TO:" + str(len(aggregate.get_agents())));
-		
+                logger.debug("PARENT A FROM:" + str(len(parent.get_agents())))
+                logger.debug("PARENT A TO:" + str(len(aggregate.get_agents())))
                 return True
         except:
             logging.exception("")
