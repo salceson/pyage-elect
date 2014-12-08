@@ -5,7 +5,6 @@ import math
 
 from pyage.core import address
 
-from pyage.core.agent.agent import unnamed_agents
 from pyage.core.agent.aggregate import AggregateAgent
 from pyage.core.emas import EmasService
 from pyage.core.locator import GridLocator
@@ -37,7 +36,7 @@ agents_count = 5
 logger.debug("EMAS, %s agents", agents_count)
 agents = root_agents_factory(agents_count, AggregateAgent)
 
-stop_condition = lambda: StepLimitStopCondition(10000)
+stop_condition = lambda: StepLimitStopCondition(1000)
 
 agg_size = 40
 aggregated_agents = lambda: emas_initializer(votes = votes, candidate = 1,size=agg_size, energy=40 )
@@ -50,9 +49,12 @@ migration_minimum = lambda: 120
 newborn_energy = lambda: 100
 transferred_energy = lambda: 40
 
-evaluation = lambda: kApprovalEvaluator(2,[lambda x:abs(x)*10]*votes_nr,50, [4,4,4,0,1,2])
+evaluation = lambda: kApprovalEvaluator(2,[simple_cost_func]*votes_nr,50, [4,4,4,0,1,2])
 crossover = lambda: Crossover(size=50)
 mutation = lambda: Mutation(probability=0.75)
+
+def simple_cost_func(x): return abs(x)*10
+
 
 address_provider = address.SequenceAddressProvider
 

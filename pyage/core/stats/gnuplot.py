@@ -28,19 +28,13 @@ class StepStatistics(Statistics):
             logging.exception("")
 
     def summarize(self, agents):
-        #print "sum----"
-        #print agents
-        #for agent in agents:   
-           # print "+++++"
-           # print agent
-           # print "===="
-           # print agent.get_best_genotype()
-             
         try:
             logger.debug(self.history)
-            logger.info("best genotype: %s", max(agents, key=lambda a: a.get_fitness()).get_best_genotype())
-        except:
-            logging.exception("")
+            best_agent = max(agents, key=lambda a: a.get_fitness())
+            best_genotype = best_agent.get_best_genotype()
+            self.fitness_output.write("best genotype: %s" % best_genotype)
+        except Exception as e:
+            logging.exception(e)
 
 
 class TimeStatistics(StepStatistics):
