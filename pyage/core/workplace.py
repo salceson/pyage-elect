@@ -49,7 +49,7 @@ class Workplace(Addressable):
     def step(self):
         try:
             self.steps += 1
-            logger.info("=========STEP %s=============", self.steps)
+            logger.debug("=========STEP %s=============", self.steps)
             for agent in self.__agents.values():
                 agent.step()
             self.stats.update(self.steps, self.__agents.values())

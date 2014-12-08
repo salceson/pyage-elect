@@ -25,7 +25,7 @@ class Mutation(AbstractMutation):
             rand = random.random()
             index_of_cand = vote.index(genotype.candidate)
             if rand < 0.5:
-                bias = random.randint(0,10) - 5
+                bias = random.randint(-10,10)
                 biased = (index_of_cand-bias)%len(vote)
                 vote.insert(biased, vote.pop(index_of_cand))
 #                vote[index_of_cand], vote[biased] = vote[biased], vote[index_of_cand]

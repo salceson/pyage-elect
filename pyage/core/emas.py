@@ -48,7 +48,7 @@ class EmasAgent(Addressable):
 
     def meet(self, neighbour):
         logger.debug("%s MEETS %s", self, neighbour)
-        if self.get_fitness() > neighbour.get_fitness():
+        if self.get_fitness() >= neighbour.get_fitness():
             transfered_energy = min(self.transferred_energy, neighbour.energy)
             self.energy += transfered_energy
             neighbour.add_energy(-transfered_energy)

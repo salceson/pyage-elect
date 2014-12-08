@@ -35,6 +35,7 @@ class kApprovalEvaluator(Operator):
 		_,max_val = sorted_points[0]
 
 		all_max = [(a,b) for (a,b) in sorted_points if b==max_val]
+
 		evaluated = None
 		for (cand, points) in all_max:
 			if cand == self.candidate:		

@@ -14,13 +14,13 @@ class StepStatistics(Statistics):
         self.fitness_output.close()
 
     def append(self, best_fitness, step_count):
-        self.fitness_output.write(str(step_count - 1) + ';' + str(abs(best_fitness)) + '\n')
+        self.fitness_output.write(str(step_count - 1) + ';' + str(best_fitness) + '\n')
 
     def update(self, step_count, agents):
         try:
             best_fitness = max([a.get_fitness() for a in agents])
             #print  max(agents, key=lambda a: a.get_fitness()).get_best_genotype()
-            logger.info(best_fitness)
+            logger.debug(best_fitness)
             self.history.append(best_fitness)
             if (step_count - 1) % 100 == 0:
                 self.append(best_fitness, step_count)
