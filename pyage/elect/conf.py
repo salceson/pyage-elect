@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 
 chosen_candidate = 2
 k_approval_coeff = 2
-number_of_cand = 20
-number_of_votes = 100
+number_of_cand = 2
+number_of_votes = 5
 votes, init_c_places = VotesInitializer(number_of_cand,number_of_votes, chosen_candidate,0)()
 logger.info("Initial votes:\n%s", "\n".join(map(str,votes)))
 
