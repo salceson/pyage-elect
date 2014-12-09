@@ -49,8 +49,8 @@ transferred_energy = lambda: 40
 
 budget = 50
 evaluation = lambda: kApprovalEvaluator(k_approval_coeff,[simple_cost_func]*votes_nr,budget, init_c_places, chosen_candidate)
-crossover = lambda: Crossover()
-mutation = lambda: Mutation(probability=0.2)
+crossover = lambda: Crossover(size=30)
+mutation = lambda: Mutation(probability=0.2, evol_probability=0.5)
 
 def simple_cost_func(x): return abs(x)*10
 
