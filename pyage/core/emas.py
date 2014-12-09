@@ -110,7 +110,7 @@ class EmasService(object):
         a2.add_energy(-self.newborn_energy / 2)
         genotype = a1.crossover.cross(a1.genotype, a2.get_genotype())
         a1.mutation.mutate(genotype)
-        new_agent = EmasAgent(genotype, energy, self.naming_service.get_next_agent(a1.parent.name))
+        new_agent = EmasAgent(genotype, energy, self.naming_service.get_next_agent())
         a1.parent.add_agent(new_agent)
         logger.debug("New agent: %s", new_agent)
 

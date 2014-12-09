@@ -49,7 +49,7 @@ class RowLocator(Locator):
         #logger.debug("neighbour list: %s", siblings)
         if len(siblings) < 2:
             return None
-        index = siblings.index(agent.__repr__())
+        index = siblings.index(agent)
         return random.choice(siblings[index - 2:index] + siblings[index + 1:index + 3])
 
 

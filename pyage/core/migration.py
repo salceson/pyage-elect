@@ -49,8 +49,9 @@ class ParentMigration(Migration):
                 agent.parent.parent.get_agents()) > 1:
                 logger.debug("migrating!")
                 aggregate = self.__get_random_aggregate(agent)
-                logger.debug(aggregate.get_address())
+                old_parent = agent.parent
                 aggregate.add_agent(agent.parent.remove_agent(agent))
+                logger.debug("%s MIGRATED FROM PARENT %s to %s", agent, old_parent, aggregate)
                 return True
         except:
             logging.exception("")

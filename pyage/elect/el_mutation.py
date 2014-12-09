@@ -21,7 +21,7 @@ class Mutation(AbstractMutation):
         self.probability = probability
 
     def mutate(self, genotype):
-        logger.debug("Mutating genotype: {0}".format(genotype.__hash__()))
+        logger.debug("Mutating genotype: {0}".format(genotype))
         for vote in genotype.votes:
             rand = random.random()
             index_of_cand = vote.index(genotype.candidate)

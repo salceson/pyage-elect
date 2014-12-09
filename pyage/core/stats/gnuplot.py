@@ -1,6 +1,7 @@
 import logging
 import time
 from pyage.core.statistics import Statistics
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -15,6 +16,8 @@ class StepStatistics(Statistics):
 
     def append(self, best_fitness, step_count):
         self.fitness_output.write(str(step_count - 1) + ';' + str(best_fitness) + '\n')
+        self.fitness_output.flush()
+        os.fsync()
 
     def update(self, step_count, agents):
         try:
@@ -32,7 +35,7 @@ class StepStatistics(Statistics):
             logger.debug(self.history)
             best_agent = max(agents, key=lambda a: a.get_fitness())
             best_genotype = best_agent.get_best_genotype()
-            self.fitness_output.write("best genotype: %s" % best_genotype)
+            self.fitness_output.write("best genotype:\n%s" % best_genotype)
         except Exception as e:
             logging.exception(e)
 

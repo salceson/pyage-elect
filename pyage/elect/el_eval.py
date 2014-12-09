@@ -38,7 +38,7 @@ class kApprovalEvaluator(Operator):
 
 		evaluated = None
 		for (cand, points) in all_max:
-			if cand == self.candidate:		
+			if cand == self.candidate and len(all_max)==1:		
 				evaluated = self.budget-cash_sum
 				break
 		if evaluated is None:
