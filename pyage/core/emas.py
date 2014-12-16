@@ -47,7 +47,7 @@ class EmasAgent(Addressable):
         return self.genotype
 
     def meet(self, neighbour):
-        logger.debug("%s MEETS %s", self, neighbour)
+        #logger.debug("%s MEETS %s", self, neighbour)
         if self.get_fitness() >= neighbour.get_fitness():
             transfered_energy = min(self.transferred_energy, neighbour.energy)
             self.energy += transfered_energy
@@ -112,6 +112,6 @@ class EmasService(object):
         a1.mutation.mutate(genotype)
         new_agent = EmasAgent(genotype, energy, self.naming_service.get_next_agent())
         a1.parent.add_agent(new_agent)
-        logger.debug("New agent: %s", new_agent)
+        logger.debug("NEW AGENT: %s", new_agent)
 
 

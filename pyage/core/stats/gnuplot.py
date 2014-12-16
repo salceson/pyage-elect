@@ -17,7 +17,7 @@ class StepStatistics(Statistics):
     def append(self, best_fitness, step_count):
         self.fitness_output.write(str(step_count - 1) + ';' + str(best_fitness) + '\n')
         self.fitness_output.flush()
-        os.fsync()
+        os.fsync(self.fitness_output)
 
     def update(self, step_count, agents):
         try:
