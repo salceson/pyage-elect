@@ -26,9 +26,9 @@ agents = generate_agents("agent", agents_count, Agent)
 
 stop_condition = lambda: StepLimitStopCondition(1000)
 
-size = 10
+size = 130
 random_cities = 30
-population_size = 130
+population_size = 10000
 operators = lambda: [TSPEvaluator(), TournamentSelection(size=125, tournament_size=125),
                      TSPCrossover(size=size), TSPMutation1(probability=0.03)]
 initializer = lambda: TSPInitializer(population_size=population_size, random_cities=True,

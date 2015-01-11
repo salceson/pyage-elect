@@ -58,6 +58,6 @@ target/
 .idea/
 
 #Some debugging and other stuff
-*.sbt
+*.swp
 *.txt
 *.png
