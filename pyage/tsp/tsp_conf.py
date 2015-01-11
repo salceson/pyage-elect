@@ -7,7 +7,7 @@ from pyage.core.locator import GridLocator
 from pyage.core.migration import ParentMigration
 from pyage.core.stats.gnuplot import StepStatistics
 from pyage.core.stop_condition import StepLimitStopCondition
-from pyage.elect.naming_service import NamingService
+from pyage.tsp.tsp_naming_service import NamingService
 from pyage.tsp.tsp_eval import TSPEvaluator
 from pyage.tsp.tsp_initializer import TSPInitializer
 from pyage.tsp.tsp_selection import TournamentSelection
@@ -24,7 +24,7 @@ logger.debug("EVO, %s agents", agents_count)
 # agents = root_agents_factory(agents_count, AggregateAgent)
 agents = generate_agents("agent", agents_count, Agent)
 
-stop_condition = lambda: StepLimitStopCondition(20)
+stop_condition = lambda: StepLimitStopCondition(1000)
 
 size = 10
 random_cities = 30
@@ -60,4 +60,4 @@ locator = GridLocator
 
 stats = lambda: StepStatistics('fitness_%s_pyage.txt' % __name__)
 
-naming_service = lambda: NamingService(starting_number=2)
+naming_service = lambda: NamingService(starting_number=1)

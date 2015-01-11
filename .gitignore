@@ -56,3 +56,8 @@ target/
 #PyCharm
 *.iml
 .idea/
+
+#Some debugging and other stuff
+*.sbt
+*.txt
+*.png
