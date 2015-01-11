@@ -29,7 +29,7 @@ class TSPMutation1(AbstractMutation):
     def mutate(self, genotype):
         logger.debug("Mutating (rand swap) genotype: " + str(genotype))
 
-        l = genotype.list
+        l = genotype.list[:]
         index1 = random.randrange(0, len(l))
         index2 = random.randrange(0, len(l))
         e1 = l[index1]
@@ -51,7 +51,7 @@ class TSPMutation2(AbstractMutation):
     def mutate(self, genotype):
         logger.debug("Mutating (next swap) genotype: " + str(genotype))
 
-        l = genotype.list
+        l = genotype.list[:]
         index1 = random.randrange(0, len(l))
         index2 = (index1 + 1) % len(l)
         e1 = l[index1]

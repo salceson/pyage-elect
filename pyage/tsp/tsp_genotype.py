@@ -28,5 +28,5 @@ class TSPGenotype(object):
         return fitness
 
     def set_list(self, list):
-        self.list = list
+        self.list = list[:]
         self.fitness = self.calculate_fitness()

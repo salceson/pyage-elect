@@ -31,8 +31,8 @@ class TSPCrossover(AbstractCrossover):
     def cross(self, p1, p2):
         logger.debug("Crossing: " + str(p1) + " and " + str(p2))
 
-        parent1 = p1.list
-        parent2 = p2.list
+        parent1 = p1.list[:]
+        parent2 = p2.list[:]
 
         index1 = random.randrange(0, len(parent1))
         index2 = random.randrange(0, len(parent1))
