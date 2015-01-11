@@ -1,55 +1,64 @@
 # coding=utf-8
-from random import uniform
+import random
 from pyage.core.emas import EmasAgent
+from pyage.core.inject import Inject
 from pyage.core.operator import Operator
-from pyage.solutions.evolution.genotype import PointGenotype, FloatGenotype
+from pyage.elect.el_genotype import Votes
+from pyage.tsp.tsp_city import City
+from pyage.tsp.tsp_genotype import TSPGenotype
 
 __author__ = "Michał Ciołczyk"
 
 
-class PointInitializer(Operator):
-    def __init__(self, size=100, lowerbound=0.0, upperbound=1.0):
-        super(PointInitializer, self).__init__(PointGenotype)
+class EmasInitializer(object):
+    def __init__(self, votes, candidate, energy, size):
+        self.votes = votes
+        self.candidate = candidate
+        self.energy = energy
         self.size = size
-        self.lowerbound = lowerbound
-        self.upperbound = upperbound
+
+    @Inject("naming_service")
+    def __call__(self):
+        agents = {}
+        for i in range(self.size):
+            agent = EmasAgent(Votes(self.votes, self.candidate), self.energy, self.naming_service.get_next_agent())
+            agents[agent.get_address()] = agent
+        return agents
+
+
+class TSPInitializer(Operator):
+    def __init__(self, population_size=1000, filename=None, random_cities=False, random_cities_number=20):
+        super(TSPInitializer, self).__init__(TSPGenotype)
+        self.size = population_size
+        if filename:
+            self.cities = self.get_cities_from_file(filename)
+            self.population = self.generate_population(population_size, self.cities)
+        if random_cities:
+            self.cities = self.generate_random_cities(random_cities_number)
+            self.population = self.generate_population(population_size, self.cities)
+
+    def __call__(self, *args, **kwargs):
+        return self.population
 
     def process(self, population):
         for i in range(self.size):
-            population.append(PointGenotype(self.__randomize(), self.__randomize()))
+            population.append(self.population[i])
 
-    def __randomize(self):
-        return uniform(self.lowerbound, self.upperbound)
+    def generate_population(self, number_of_genotypes, cities):
+        return [TSPGenotype(cities) for _ in xrange(0, number_of_genotypes)]
 
+    def generate_random_cities(self, number_of_cities):
+        cities = []
+        for i in xrange(number_of_cities):
+            cities.append(City("City " + str(i), random.randint(0, 1000), random.randint(0, 1000)))
+        return cities
 
-class FloatInitializer(Operator):
-    def __init__(self, dims=3, size=100, lowerbound=0.0, upperbound=1.0):
-        super(FloatInitializer, self).__init__(FloatGenotype)
-        self.size = size
-        self.lowerbound = lowerbound
-        self.upperbound = upperbound
-        self.dims = dims
-
-    def process(self, population):
-        for i in range(self.size):
-            population.append(FloatGenotype([self.__randomize() for _ in range(self.dims)]))
-
-    def __randomize(self):
-        return uniform(self.lowerbound, self.upperbound)
-
-
-def float_emas_initializer(dims=2, energy=10, size=100, lowerbound=0.0, upperbound=1.0):
-    agents = {}
-    for i in range(size):
-        agent = EmasAgent(FloatGenotype([uniform(lowerbound, upperbound) for _ in range(dims)]), energy)
-        agents[agent.get_address()] = agent
-    return agents
-
-
-def emas_initializer(energy=10, size=100, lowerbound=0.0, upperbound=1.0):
-    agents = {}
-    for i in range(size):
-        agent = EmasAgent(PointGenotype(uniform(lowerbound, upperbound), uniform(lowerbound, upperbound)), energy)
-        agents[agent.get_address()] = agent
-    return agents
+    def get_cities_from_file(self, filename):
+        cities = []
+        with open(filename, "r") as input:
+            input.readline()  # skip first line
+            for line in input:
+                name, x, y = line.strip().split(",")
+                cities.append(City(name, x, y))
+        return cities
 
