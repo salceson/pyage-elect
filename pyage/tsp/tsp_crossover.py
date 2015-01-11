@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class AbstractCrossover(Operator):
-    def __init__(self, type, size):
+    def __init__(self, type=TSPGenotype, size=20):
         super(AbstractCrossover, self).__init__(type)
         self.__size = size
 

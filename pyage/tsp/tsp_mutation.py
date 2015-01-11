@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class AbstractMutation(Operator):
-    def __init__(self, type, probability):
+    def __init__(self, type=TSPGenotype, probability=0.5):
         super(AbstractMutation, self).__init__(type)
         self.probability = probability
 
