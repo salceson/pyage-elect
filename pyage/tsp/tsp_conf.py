@@ -1,5 +1,6 @@
 # coding=utf-8
 import logging
+import sys
 
 from pyage.core import address
 from pyage.core.agent.agent import generate_agents, Agent
@@ -13,10 +14,18 @@ from pyage.tsp.tsp_initializer import TSPInitializer
 from pyage.tsp.tsp_selection import TournamentSelection
 from pyage.tsp.tsp_crossover import TSPCrossover
 from pyage.tsp.tsp_mutation import TSPMutation1
+from pyage.tsp.tsp_args import ArgumentParser
 
 __author__ = "Michał Ciołczyk"
 
 logger = logging.getLogger(__name__)
+
+args = None
+
+try:
+    args = ArgumentParser.parse_args()
+except ValueError as e:
+    logger.debug(e.message)
 
 agents_count = 10
 logger.debug("EVO, %s agents", agents_count)

@@ -11,11 +11,13 @@ logger = logging.getLogger(__name__)
 
 
 class StepStatisticsWithStdDev(Statistics):
-    def __init__(self, output_file_name='fitness_pyage.txt', plot_file_name='plot.png', take_max_as_best=True):
+    def __init__(self, output_file_name='fitness_pyage.txt',
+                 plot_file_name='plot.png', take_max_as_best=True, use_avg=True):
         self.history = []
         self.fitness_output = open(output_file_name, 'a')
         self.take_max_as_best = take_max_as_best
         self.plot_file_name = plot_file_name
+        self.use_avg = use_avg
 
     def __del__(self):
         self.fitness_output.close()
@@ -44,21 +46,24 @@ class StepStatisticsWithStdDev(Statistics):
             best_agent = max(agents, key=lambda a: a.get_fitness())
             best_genotype = best_agent.get_best_genotype()
             self.fitness_output.write("best genotype:\n%s" % best_genotype)
-            self.fitness_output.close()
             average = []
             std_dev = []
-            for (best, avg, stddev) in self.history:
+            for (_, avg, stddev) in self.history:
+                if self.use_abs:
+                    avg = abs(avg)
                 average.append(avg)
                 std_dev.append(stddev)
             steps = range(1, len(average) + 1)
+            logger.debug("STATISTICS START\n============================================================")
             logger.debug("Size: " + str(len(average)))
-            logger.debug(average)
-            logger.debug(std_dev)
+            logger.debug("Averages: " + str(average))
+            logger.debug("Standard deviations: " + str(std_dev))
             logger.debug("Plotting results: errorbar")
             errorbar(steps, average, std_dev)
             logger.debug("Plotting results: savefig")
             savefig(self.plot_file_name)
             logger.debug("Done!")
+            logger.debug("STATISTICS END\n============================================================")
         except Exception as e:
             logging.exception(e)
 
