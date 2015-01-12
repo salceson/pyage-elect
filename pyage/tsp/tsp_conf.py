@@ -5,7 +5,7 @@ from pyage.core import address
 from pyage.core.agent.agent import generate_agents, Agent
 from pyage.core.locator import GridLocator
 from pyage.core.migration import ParentMigration
-from pyage.core.stats.gnuplot import StepStatistics
+from pyage.core.stats.real_gnuplot import StepStatisticsWithStdDev
 from pyage.core.stop_condition import StepLimitStopCondition
 from pyage.tsp.tsp_naming_service import NamingService
 from pyage.tsp.tsp_eval import TSPEvaluator
@@ -18,7 +18,7 @@ __author__ = "Michał Ciołczyk"
 
 logger = logging.getLogger(__name__)
 
-agents_count = 1
+agents_count = 10
 logger.debug("EVO, %s agents", agents_count)
 # logger.debug("EMAS, %s agents", agents_count)
 # agents = root_agents_factory(agents_count, AggregateAgent)
@@ -58,6 +58,6 @@ address_provider = address.SequenceAddressProvider
 migration = ParentMigration
 locator = GridLocator
 
-stats = lambda: StepStatistics('fitness_%s_pyage.txt' % __name__)
+stats = lambda: StepStatisticsWithStdDev()
 
 naming_service = lambda: NamingService(starting_number=1)
