@@ -11,13 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 class StepStatisticsWithStdDev(Statistics):
-    def __init__(self, output_file_name='fitness_pyage.txt',
-                 plot_file_name='plot.png', take_max_as_best=True, use_avg=True):
+    def __init__(self, output_file_name='fitness_pyage.txt', plot=True,
+                 plot_file_name='plot.png', take_max_as_best=True, use_abs=True):
         self.history = []
         self.fitness_output = open(output_file_name, 'a')
         self.take_max_as_best = take_max_as_best
         self.plot_file_name = plot_file_name
-        self.use_avg = use_avg
+        self.use_abs = use_abs
+        self.plot = plot
 
     def __del__(self):
         self.fitness_output.close()
@@ -58,10 +59,11 @@ class StepStatisticsWithStdDev(Statistics):
             logger.debug("Size: " + str(len(average)))
             logger.debug("Averages: " + str(average))
             logger.debug("Standard deviations: " + str(std_dev))
-            logger.debug("Plotting results: errorbar")
-            errorbar(steps, average, std_dev)
-            logger.debug("Plotting results: savefig")
-            savefig(self.plot_file_name)
+            if self.plot:
+                logger.debug("Plotting results: errorbar")
+                errorbar(steps, average, std_dev)
+                logger.debug("Plotting results: savefig")
+                savefig(self.plot_file_name)
             logger.debug("Done!")
             logger.debug("STATISTICS END\n============================================================")
         except Exception as e:
