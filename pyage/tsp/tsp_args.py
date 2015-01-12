@@ -14,12 +14,18 @@ class ArgumentParser(object):
     @staticmethod
     def parse_args():
         args = sys.argv
-        ret_val = []
+        print args
 
-        if len(args) < 4:
+        if len(args) < 5:
             raise ValueError("Not enough parameters!")
 
-        emas = args[2] == '1'
+        emas = args[3] == '1'
         logger.debug("Emas: " + str(emas))
 
-        return ret_val
+        prob = float(args[4])
+        logger.debug("Probability: " + str(prob))
+
+        func = int(args[5])
+        logger.debug("Mutation: " + str(func))
+
+        return [emas, prob, func]
