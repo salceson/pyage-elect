@@ -15,6 +15,8 @@ mutation_func = [0, 1]
 generate = False
 filename = ""
 
+proc_base = "python -m pyage.core.bootstrap pyage.tsp.tsp_conf DEBUG "
+
 # Main routine
 
 if __name__ == "__main__":
@@ -33,4 +35,9 @@ if __name__ == "__main__":
     for e in emas:
         for pr in mutation_prob:
             for m in mutation_func:
-                pass
+                args = ('1' if e else '0') + " " + str(pr) + " " + str(m)
+                if not e:
+                    args += " plot"
+                else:
+                    for i in xrange(0, 10):
+                        pass
