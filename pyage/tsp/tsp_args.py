@@ -14,9 +14,8 @@ class ArgumentParser(object):
     @staticmethod
     def parse_args():
         args = sys.argv
-        print args
 
-        if len(args) < 5:
+        if len(args) < 6:
             raise ValueError("Not enough parameters!")
 
         emas = args[3] == '1'
@@ -28,4 +27,6 @@ class ArgumentParser(object):
         func = int(args[5])
         logger.debug("Mutation: " + str(func))
 
-        return [emas, prob, func]
+        filename = args[6]
+
+        return [emas, prob, func, filename]

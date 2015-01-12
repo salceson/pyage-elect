@@ -36,7 +36,7 @@ if __name__ == "__main__":
     for e in emas:
         for pr in mutation_prob:
             for m in mutation_func:
-                args = ('1' if e else '0') + " " + str(pr) + " " + str(m)
+                args = ('1' if e else '0') + " " + str(pr) + " " + str(m) + " " + filename
                 print "Executing: " + proc_base + args + "..."
                 os.system(proc_base + args)
     print "Done"

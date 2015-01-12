@@ -1,19 +1,19 @@
 # coding=utf-8
 import random
+
 from pyage.core.emas import EmasAgent
 from pyage.core.inject import Inject
 from pyage.core.operator import Operator
-from pyage.elect.el_genotype import Votes
 from pyage.tsp.tsp_city import City
 from pyage.tsp.tsp_genotype import TSPGenotype
+
 
 __author__ = "Michał Ciołczyk"
 
 
 class EmasInitializer(object):
-    def __init__(self, votes, candidate, energy, size):
-        self.votes = votes
-        self.candidate = candidate
+    def __init__(self, filename, energy, size):
+        self.cities = self.get_cities_from_file(filename)
         self.energy = energy
         self.size = size
 
@@ -21,9 +21,19 @@ class EmasInitializer(object):
     def __call__(self):
         agents = {}
         for i in range(self.size):
-            agent = EmasAgent(Votes(self.votes, self.candidate), self.energy, self.naming_service.get_next_agent())
+            agent = EmasAgent(TSPGenotype(self.cities), self.energy, self.naming_service.get_next_agent())
             agents[agent.get_address()] = agent
         return agents
+
+    @staticmethod
+    def get_cities_from_file(filename):
+        cities = []
+        with open(filename, "r") as input:
+            input.readline()  # skip first line
+            for line in input:
+                name, x, y = line.strip().split(",")
+                cities.append(City(name, int(x), int(y)))
+        return cities
 
 
 class TSPInitializer(Operator):
@@ -59,6 +69,16 @@ class TSPInitializer(Operator):
             input.readline()  # skip first line
             for line in input:
                 name, x, y = line.strip().split(",")
-                cities.append(City(name, x, y))
+                cities.append(City(name, int(x), int(y)))
         return cities
 
+
+def root_agents_factory(count, type):
+    def factory():
+        agents = {}
+        for i in range(count):
+            agent = type('R' + str(i))
+            agents[agent.get_address()] = agent
+        return agents
+
+    return factory
