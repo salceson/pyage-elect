@@ -19,7 +19,7 @@ class ArgumentParser(object):
         if len(args) < 4:
             raise ValueError("Not enough parameters!")
 
-        emas = args[2] == 'emas'
+        emas = args[2] == '1'
         logger.debug("Emas: " + str(emas))
 
         return ret_val
