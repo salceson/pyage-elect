@@ -1,4 +1,5 @@
 # coding=utf-8
+import os
 import sys
 from pyage.tsp.tsp_generate_cities import TSPCitiesGenerator
 
@@ -36,8 +37,6 @@ if __name__ == "__main__":
         for pr in mutation_prob:
             for m in mutation_func:
                 args = ('1' if e else '0') + " " + str(pr) + " " + str(m)
-                if not e:
-                    args += " plot"
-                else:
-                    for i in xrange(0, 10):
-                        pass
+                print "Executing: " + proc_base + args + "..."
+                os.system(proc_base + args)
+    print "Done"
