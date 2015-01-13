@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir logs/
+
 for file in *.log
 do
 	echo $file
