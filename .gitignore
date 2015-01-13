@@ -62,5 +62,6 @@ target/
 *.txt
 *.png
 
-#Plots
+#Plots and logs
 /plots
+/logs

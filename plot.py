@@ -1,5 +1,5 @@
 # coding=utf-8
-from matplotlib.pyplot import errorbar, savefig
+from matplotlib.pyplot import errorbar, savefig, legend, title
 
 __author__ = 'Michał Ciołczyk'
 
@@ -12,11 +12,14 @@ avg3 = []
 stddev3 = []
 
 basedir = "plots/"
-plotname = "mut1_prob"
+plotname = ""
 extension = ".png"
 
 avgs = []
 stddevs = []
+
+legends = ["", "", ""]
+t = ""
 
 if len(avg1) > 0:
     avgs.append(avg1)
@@ -31,6 +34,8 @@ if len(avg3) > 0:
     stddevs.append(stddev3)
 
 for i in xrange(len(avgs)):
-    errorbar(range(1, len(avgs[i]) + 1), avgs[i], stddevs[i])
+    errorbar(range(1, len(avgs[i]) + 1), avgs[i], stddevs[i], label=legends[i])
 
+title(t)
+legend()
 savefig(basedir + plotname + extension)
