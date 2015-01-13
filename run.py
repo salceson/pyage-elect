@@ -8,7 +8,6 @@ __author__ = 'Michał Ciołczyk'
 # Parameters
 
 emas = [False, True]
-emas_count = 10
 
 mutation_prob = [0.01, 0.03, 0.1]
 mutation_func = [0, 1]
