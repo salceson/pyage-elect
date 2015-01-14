@@ -46,7 +46,7 @@ class StepStatisticsWithStdDev(Statistics):
             logger.debug(self.history)
             best_agent = max(agents, key=lambda a: a.get_fitness())
             best_genotype = best_agent.get_best_genotype()
-            self.fitness_output.write("best genotype:\n%s" % best_genotype)
+            self.fitness_output.write("best genotype:\n%s\n" % best_genotype)
             average = []
             std_dev = []
             for (_, avg, stddev) in self.history:
