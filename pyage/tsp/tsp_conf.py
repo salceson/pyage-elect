@@ -1,6 +1,5 @@
 # coding=utf-8
 import logging
-import sys
 
 from pyage.core import address
 from pyage.core.agent.agent import generate_agents, Agent
