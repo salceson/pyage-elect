@@ -1,9 +1,12 @@
 # coding=utf-8
 import logging
+import os
+
 from matplotlib.pyplot import errorbar, savefig
 from numpy import average, std
-import os
+
 from pyage.core.statistics import Statistics
+
 
 __author__ = "Michał Ciołczyk"
 
