@@ -54,11 +54,15 @@ def get_cities_from_file(filename):
 if __name__ == "__main__":
     width = 1200
     height = 1200
+    genotype = [28, 3, 17, 0, 11, 29, 9, 22, 19, 6, 7, 1, 12, 15, 27, 14, 8, 25, 21, 5, 16, 23, 4, 24, 26, 2, 20, 10, 18, 13]
     filename = "cities.csv"
+
+    cities_list = get_cities_from_file(filename)
+
     fig = plt.figure()
     canvas = fig.add_subplot(111)
-    cities_list = get_cities_from_file(filename)
-    genotype = [28, 3, 17, 0, 11, 29, 9, 22, 19, 6, 7, 1, 12, 15, 27, 14, 8, 25, 21, 5, 16, 23, 4, 24, 26, 2, 20, 10, 18, 13]
+
     c = [cities_list[i] for i in genotype]
     cities = [(city.x, city.y) for city in c]
+
     draw_path(cities, canvas, width, height)
